@@ -24,14 +24,14 @@ bool IGrabber::SensorInit()
 {
 	int colorWidth = 0;
 	int colorHeight = 0;
-	hr = GetDefaultKinectSensor(&m_pKinectSensor);//»ñÈ¡¸ĞÓ¦Æ÷
+	hr = GetDefaultKinectSensor(&m_pKinectSensor);//è·å–æ„Ÿåº”å™¨
 	if (FAILED(hr))
 	{
 		cout << "FUCK! Can not find the Kinect!" << endl;
 		return false;
-	}//Èç¹ûÊ§°Ü
-	//ÔÚKinect for windows SDK2.0ÖĞ£¬»ñÈ¡²¢´¦ÀíÊı¾İÔ´½Ó¿Ú²½ÖèÈçÏÂ£ºSensor->Source->Reader->Frame->Data
-	hr = m_pKinectSensor->Open();//´ò¿ª¸ĞÓ¦Æ÷Starts streaming data from the Kinect using a specified access mode.
+	}//å¦‚æœå¤±è´¥
+	//åœ¨Kinect for windows SDK2.0ä¸­ï¼Œè·å–å¹¶å¤„ç†æ•°æ®æºæ¥å£æ­¥éª¤å¦‚ä¸‹ï¼šSensor->Source->Reader->Frame->Data
+	hr = m_pKinectSensor->Open();//æ‰“å¼€æ„Ÿåº”å™¨Starts streaming data from the Kinect using a specified access mode.
 	if (FAILED(hr)) {
 		throw std::exception("Exception : IKinectSensor::Open()");
 	}
@@ -54,14 +54,14 @@ bool IGrabber::SensorInit()
 	}
 	hr = pDepthFrameSource->OpenReader(&m_pDepthFrameReader);
 	// Retrieved Infrared Frame Source
-	IInfraredFrameSource* infraredSource;//±íÊ¾À´×ÔKinectSensorµÄºìÍâÖ¡Ô´¡£
+	IInfraredFrameSource* infraredSource;//è¡¨ç¤ºæ¥è‡ªKinectSensorçš„çº¢å¤–å¸§æºã€‚
 	hr = m_pKinectSensor->get_InfraredFrameSource(&infraredSource);
 	if (FAILED(hr)) {
 		throw std::exception("Exception : IKinectSensor::get_InfraredFrameSource()");
 	}
 
-	// Retrieved Color Frame Size  ¼ìË÷ÑÕÉ«Ö¡´óĞ¡
-	IFrameDescription* colorDescription;//Represents the properties of an image frame from the KinectSensor.±íÊ¾À´×ÔKinectSensorµÄÍ¼ÏñÖ¡µÄÊôĞÔ
+	// Retrieved Color Frame Size  æ£€ç´¢é¢œè‰²å¸§å¤§å°
+	IFrameDescription* colorDescription;//Represents the properties of an image frame from the KinectSensor.è¡¨ç¤ºæ¥è‡ªKinectSensorçš„å›¾åƒå¸§çš„å±æ€§
 	hr = pColorFrameSource->get_FrameDescription(&colorDescription);//Gets the description of the color frames.
 	if (FAILED(hr)) {
 		throw std::exception("Exception : IColorFrameSource::get_FrameDescription()");
@@ -81,8 +81,8 @@ bool IGrabber::SensorInit()
 	if (!m_pDepthFrameReader)
 	{
 		cout << " Can not find the m_pDepthFrameReader!" << endl;
-		cv::waitKey(0);//waitKey()º¯ÊıµÄ¹¦ÄÜÊÇ²»¶ÏË¢ĞÂÍ¼Ïñ£¬ÆµÂÊÎªdelay£¬µ¥Î»ÊÇms£¬·µ»ØÖµÎªµ±Ç°¼üÅÌ°´ÏÂµÄÖµ£¬Ã»ÓĞ°´¼üÊ±·µ»Ø-1.²ÎÊıÎª0±íÊ¾»áÒ»Ö±Í£¶ÙÔÚµ±Ç°Í¼ÏñÉÏ
-		exit(0);//exit£¨0£©£ºÕı³£ÔËĞĞ³ÌĞò²¢ÍË³ö³ÌĞò£»exit£¨1£©£º·ÇÕı³£ÔËĞĞµ¼ÖÂÍË³ö³ÌĞò£»return£¨£©£º·µ»Øº¯Êı£¬ÈôÔÚÖ÷º¯ÊıÖĞ£¬Ôò»áÍË³öº¯Êı²¢·µ»ØÒ»Öµ¡£
+		cv::waitKey(0);//waitKey()å‡½æ•°çš„åŠŸèƒ½æ˜¯ä¸æ–­åˆ·æ–°å›¾åƒï¼Œé¢‘ç‡ä¸ºdelayï¼Œå•ä½æ˜¯msï¼Œè¿”å›å€¼ä¸ºå½“å‰é”®ç›˜æŒ‰ä¸‹çš„å€¼ï¼Œæ²¡æœ‰æŒ‰é”®æ—¶è¿”å›-1.å‚æ•°ä¸º0è¡¨ç¤ºä¼šä¸€ç›´åœé¡¿åœ¨å½“å‰å›¾åƒä¸Š
+		exit(0);//exitï¼ˆ0ï¼‰ï¼šæ­£å¸¸è¿è¡Œç¨‹åºå¹¶é€€å‡ºç¨‹åºï¼›exitï¼ˆ1ï¼‰ï¼šéæ­£å¸¸è¿è¡Œå¯¼è‡´é€€å‡ºç¨‹åºï¼›returnï¼ˆï¼‰ï¼šè¿”å›å‡½æ•°ï¼Œè‹¥åœ¨ä¸»å‡½æ•°ä¸­ï¼Œåˆ™ä¼šé€€å‡ºå‡½æ•°å¹¶è¿”å›ä¸€å€¼ã€‚
 	}
 	//color reader  
 	if (!m_pColorFrameReader)
@@ -100,17 +100,18 @@ bool IGrabber::SensorInit()
 bool IGrabber::GetImg(bool IsSaveImg, bool IsShowImg)
 {
 	
-	UINT nBufferSize_depth = 0;//uint¾ÍÊÇÒ»¸öÎŞ·ûºÅµÄint,¼´unsigned int
+	UINT nBufferSize_depth = 0;//uintå°±æ˜¯ä¸€ä¸ªæ— ç¬¦å·çš„int,å³unsigned int
 	UINT nBufferSize_coloar = 0;
 	RGBQUAD* pBuffer_color = NULL;
 	UINT16* pBuffer_depth = NULL;
-	depthArray = new UINT16[512 * 424]; //±£´æµ±Ç°Ö¡µÄÉî¶ÈÊı¾İ£¬ÓÃÓÚÉú³ÉµãÔÆ
+	depthArray = new UINT16[512 * 424]; //ä¿å­˜å½“å‰å¸§çš„æ·±åº¦æ•°æ®ï¼Œç”¨äºç”Ÿæˆç‚¹äº‘
 	char key = 0;
 	while (true) {
 		IDepthFrame* pDepthFrame = nullptr;
 		HRESULT hr = m_pDepthFrameReader->AcquireLatestFrame(&pDepthFrame);
 		if (SUCCEEDED(hr))
 		{
+			// //è·å–æœ€å¤§ã€æœ€å°æ·±åº¦è·ç¦»ä¿¡æ¯
 			USHORT nDepthMinReliableDistance = 0;
 			USHORT nDepthMaxReliableDistance = 0;
 			if (SUCCEEDED(hr)) {
@@ -188,7 +189,7 @@ bool IGrabber::GetImg(bool IsSaveImg, bool IsShowImg)
 			}
 			RGBQUAD* m_pColorRGBX = new RGBQUAD[color_widht * color_height];
 			if (SUCCEEDED(hr)) {
-				if (imageFormat == ColorImageFormat_Bgra)//ÕâÀïÓĞÁ½¸öformat£¬²»ÖªµÀ¾ßÌåº¬Òå£¬´ó¸ÅÒ»¸öÔ¤ÏÈ·ÖÅäÄÚ´æ£¬Ò»¸öĞèÒª×Ô¼º¿ª¿Õ¼ä°É  
+				if (imageFormat == ColorImageFormat_Bgra)//è¿™é‡Œæœ‰ä¸¤ä¸ªformatï¼Œä¸çŸ¥é“å…·ä½“å«ä¹‰ï¼Œå¤§æ¦‚ä¸€ä¸ªé¢„å…ˆåˆ†é…å†…å­˜ï¼Œä¸€ä¸ªéœ€è¦è‡ªå·±å¼€ç©ºé—´å§  
 				{
 					hr = pColorFrame->AccessRawUnderlyingBuffer(&nBufferSize_coloar, reinterpret_cast<BYTE**>(&pBuffer_color));
 				}
@@ -228,15 +229,15 @@ bool IGrabber::GetImg(bool IsSaveImg, bool IsShowImg)
 void IGrabber::SaveImg(string command,string savepath)
 {
 	//
-	//»ñÈ¡Ê±¼ä´Á
+	//è·å–æ—¶é—´æˆ³
 	string currtime = getTime();
-	//¶¨Òå´æ´¢Â·¾¶
+	//å®šä¹‰å­˜å‚¨è·¯å¾„
 	savepath.append("\\");
-	//´æ´¢3ÖÖÍ¼Æ¬
+	//å­˜å‚¨3ç§å›¾ç‰‡
 	cv::imwrite(savepath + currtime + "_gray.png", depthImg_show);
 	cv::imwrite(savepath + currtime + "_gt.png", depthImg);
 	cv::imwrite(savepath + currtime + "_rgb.bmp", colorImg);
-	//´æ´¢Ó³Éä¹ØÏµ
+	//å­˜å‚¨æ˜ å°„å…³ç³»
 	char* g_buffer = new char[512 * 424 * 21];
 	//char* g_buffer = (char*)malloc(512 * 424 * 20);
 	char* b_temp = g_buffer;
@@ -330,25 +331,25 @@ pcl::PointCloud<pcl::PointXYZRGBA>::Ptr IGrabber::convertDepthToPointXYZ()
 			p.y = n;
 			p.z = double(d);
 
-			// ´ÓrgbÍ¼ÏñÖĞ»ñÈ¡ËüµÄÑÕÉ«
-			// rgbÊÇÈıÍ¨µÀµÄBGR¸ñÊ½Í¼£¬ËùÒÔ°´ÏÂÃæµÄË³Ğò»ñÈ¡ÑÕÉ«¡£
+			// ä»rgbå›¾åƒä¸­è·å–å®ƒçš„é¢œè‰²
+			// rgbæ˜¯ä¸‰é€šé“çš„BGRæ ¼å¼å›¾ï¼Œæ‰€ä»¥æŒ‰ä¸‹é¢çš„é¡ºåºè·å–é¢œè‰²ã€‚
 			p.b = colorImg.ptr<uchar>(m)[n * 3];;
 			p.g = colorImg.ptr<uchar>(m)[n * 3 + 1];
 			p.r = colorImg.ptr<uchar>(m)[n * 3 + 2];
 
-			//Èç¹û²»ĞèÒª½«µãÔÆÉÏÉ«£¬¿É¸Ä³Éµ¥Ò»É«¡£
+			//å¦‚æœä¸éœ€è¦å°†ç‚¹äº‘ä¸Šè‰²ï¼Œå¯æ”¹æˆå•ä¸€è‰²ã€‚
 			//p.b = 255;;
 			//p.g = 255;
 			//p.r = 255;
 
-			// °Ñp¼ÓÈëµ½µãÔÆÖĞ
+			// æŠŠpåŠ å…¥åˆ°ç‚¹äº‘ä¸­
 			cloud->points.push_back(p);
 		}
 	cloud->height = 1;
 	cloud->width = cloud->points.size();
 	cout << "point cloud size = " << cloud->points.size() << endl;
 	cloud->is_dense = false;
-	////////////////////////////////////¸ßË¹ÂË²¨//////////////////////////////////////
+	////////////////////////////////////é«˜æ–¯æ»¤æ³¢//////////////////////////////////////
 
 	//bool isGaussfilter = false;
 	//if (isGaussfilter) {
@@ -420,7 +421,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr IGrabber::convertDepthToPointXYZGuanFang(UIN
 	return cloud;
 }
 
-////½«Éî¶ÈÊı¾İ×ª»»Îªcv::mat
+////å°†æ·±åº¦æ•°æ®è½¬æ¢ä¸ºcv::mat
 //cv::Mat IGrabber::ConvertMat(const UINT16* pBuffer, int nWidth, int nHeight, USHORT nMinDepth, USHORT nMaxDepth)
 //{
 //	cv::Mat img(nHeight, nWidth, CV_8UC3);
@@ -454,7 +455,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr IGrabber::convertDepthToPointXYZGuanFang(UIN
 //	}
 //	return img;
 //}
-// ×ª»»depthÍ¼Ïñµ½cv::Mat
+// è½¬æ¢depthå›¾åƒåˆ°cv::Mat
 cv::Mat IGrabber::ConvertMat(const UINT16* pBuffer, int nWidth, int nHeight, USHORT nMinDepth, USHORT nMaxDepth)
 {
 	cv::Mat img(nHeight, nWidth, CV_8UC3);
@@ -500,7 +501,7 @@ cv::Mat IGrabber::ConvertDepthMat(const UINT16* pBuffer, int nWidth, int nHeight
 	}
 	return img;
 }
-////½«²ÊÉ«Í¼Ïñ×ª»»Îªcv::Mat
+////å°†å½©è‰²å›¾åƒè½¬æ¢ä¸ºcv::Mat
 //cv::Mat IGrabber::ConvertMat(const RGBQUAD* pBuffer, int nWidth, int nHeight)
 //{
 //	cv::Mat img(nHeight, nWidth, CV_8UC3);
@@ -522,7 +523,7 @@ cv::Mat IGrabber::ConvertDepthMat(const UINT16* pBuffer, int nWidth, int nHeight
 //	return img;
 //
 //}
-// ×ª»»colorÍ¼Ïñµ½cv::Mat
+// è½¬æ¢colorå›¾åƒåˆ°cv::Mat
 cv::Mat IGrabber::ConvertMat(const RGBQUAD* pBuffer, int nWidth, int nHeight)
 {
 	cv::Mat img(nHeight, nWidth, CV_8UC3);
