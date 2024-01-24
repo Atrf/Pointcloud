@@ -423,44 +423,10 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr IGrabber::convertDepthToPointXYZGuanFang(UIN
 	return cloud;
 }
 
-////将深度数据转换为cv::mat
-//cv::Mat IGrabber::ConvertMat(const UINT16* pBuffer, int nWidth, int nHeight, USHORT nMinDepth, USHORT nMaxDepth)
-//{
-//	cv::Mat img(nHeight, nWidth, CV_8UC3);
-//	uchar* p_mat = img.data;
-//
-//	const UINT16* pBufferEnd = pBuffer + (nWidth * nHeight);
-//
-//	while (pBuffer < pBufferEnd)
-//	{
-//		USHORT depth = *pBuffer;
-//
-//		//BYTE intensity = static_cast<BYTE>((depth >= nMinDepth) && (depth <= nMaxDepth) ? (depth / 25) : 0);
-//		BYTE intensity;
-//		if (depth <= nMinDepth) {
-//			intensity = 0;
-//		}
-//		else if (depth >= nMaxDepth) {
-//			intensity = 255;
-//		}
-//		else {
-//			intensity = static_cast<BYTE>(255 * (depth - nMinDepth) / (nMaxDepth - nMinDepth));
-//		}
-//		*p_mat = intensity;
-//		p_mat++;
-//		*p_mat = intensity;
-//		p_mat++;
-//		*p_mat = intensity;
-//		p_mat++;
-//
-//		++pBuffer;
-//	}
-//	return img;
-//}
 // 转换depth图像到cv::Mat
 cv::Mat IGrabber::ConvertMat(const UINT16* pBuffer, int nWidth, int nHeight, USHORT nMinDepth, USHORT nMaxDepth)
 {
-	cv::Mat img(nHeight, nWidth, CV_8UC3);
+	cv::Mat img(nHeight, nWidth, CV_8UC3);//图像高（行）480-row，宽（列）640-col， 数据类型：CV_8UC3
 	uchar* p_mat = img.data;
 
 	const UINT16* pBufferEnd = pBuffer + (nWidth * nHeight);
@@ -503,28 +469,7 @@ cv::Mat IGrabber::ConvertDepthMat(const UINT16* pBuffer, int nWidth, int nHeight
 	}
 	return img;
 }
-////将彩色图像转换为cv::Mat
-//cv::Mat IGrabber::ConvertMat(const RGBQUAD* pBuffer, int nWidth, int nHeight)
-//{
-//	cv::Mat img(nHeight, nWidth, CV_8UC3);
-//	uchar* p_mat = img.data;
-//
-//	const RGBQUAD* pBufferEnd = pBuffer + (nWidth * nHeight);
-//
-//	while (pBuffer < pBufferEnd)
-//	{
-//		*p_mat = pBuffer->rgbBlue;
-//		p_mat++;
-//
-//		*p_mat = pBuffer->rgbGreen;
-//		p_mat++;
-//		*p_mat = pBuffer->rgbRed;
-//		p_mat++;
-//		++pBuffer;
-//	}
-//	return img;
-//
-//}
+
 // 转换color图像到cv::Mat
 cv::Mat IGrabber::ConvertMat(const RGBQUAD* pBuffer, int nWidth, int nHeight)
 {
