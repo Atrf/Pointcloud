@@ -103,7 +103,7 @@ bool IGrabber::GetImg(bool IsSaveImg, bool IsShowImg)
 	UINT nBufferSize_depth = 0;//uint就是一个无符号的int,即unsigned int
 	UINT nBufferSize_coloar = 0;
 	RGBQUAD* pBuffer_color = NULL;
-	UINT16* pBuffer_depth = NULL;
+	UINT16* pBuffer_depth = NULL;//指向图像的指针
 	depthArray = new UINT16[512 * 424]; //保存当前帧的深度数据，用于生成点云
 	char key = 0;
 	while (true) {
@@ -122,7 +122,9 @@ bool IGrabber::GetImg(bool IsSaveImg, bool IsShowImg)
 				hr = pDepthFrame->get_DepthMaxReliableDistance(&nDepthMaxReliableDistance);
 			}
 			if (SUCCEEDED(hr)) {
+				//获取图像像素个数和指向图像的指针
 				hr = pDepthFrame->AccessUnderlyingBuffer(&nBufferSize_depth, &pBuffer_depth);
+				// 将数据存入16位矩阵中
 				hr = pDepthFrame->CopyFrameDataToArray(nBufferSize_depth, reinterpret_cast<UINT16*>(depthArray));
 				if (IsSaveImg || IsShowImg) {
 					depthImg_show = ConvertMat(pBuffer_depth, depth_width, depth_height, nDepthMinReliableDistance, nDepthMaxReliableDistance);
